@@ -670,6 +670,10 @@
             
             const targetBtnId = (day === 'taxi') ? 'btn-taxi' : 'btn-' + day;
             document.getElementById(targetBtnId).classList.add('tab-active');
+
+            // 儲存當前天數到 localStorage
+            localStorage.setItem('selectedDay', day);			
+			
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -691,6 +695,8 @@
             }
         }
 
+		// 呼叫範例：
+		// speakKorean('receipt');
 		function speakKorean(type) {
 		    if (!('speechSynthesis' in window)) return;
 		
@@ -711,12 +717,12 @@
 		    window.speechSynthesis.speak(utterance);
 		}
 
-// 呼叫範例：
-// speakKorean('receipt');
-
         // 初始化顯示第二天，方便查看效果
         window.onload = () => {
-            switchDay(2);
+            // 從 localStorage 讀取上次存儲的天數，如果沒有則預設為 Day 2
+            const lastSavedDay = localStorage.getItem('selectedDay') || 2;
+
+			switchDay(lastSavedDay);
         };
     </script>
 </body>
