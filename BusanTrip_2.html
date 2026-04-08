@@ -10,16 +10,20 @@
     <style>
         body { 
             font-family: 'Noto Sans TC', sans-serif;
-            background-color: #f0f9ff;
+            /* 改動：背景基調改為淺紫色 */
+            background-color: #f5f3ff; 
         }
+        /* [Highlight] 改動：調整漸層為薰衣草藍色調 (Indigo to Blue) */
         .vibe-gradient { 
-            background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%); 
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 50%, #dbeafe 100%); 
         }
+
+        /* [Highlight] 改動：選中按鈕顏色改為深靛藍紫色 (indigo-700) */
         .tab-active {
-            background-color: #0284c7 !important;
+            background-color: #4338ca !important; 
             color: white !important;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(67, 56, 202, 0.3);
         }
         .subtab-active {
             background-color: #ec4899 !important;
@@ -54,15 +58,15 @@
             background: rgba(2, 132, 199, 0.1);
             color: #0369a1;
         }
+        /* [Highlight] 改動：時間標籤顏色改為 indigo-500 */
         .time-stamp {
-            background-color: #0284c7;
+            background-color: #6366f1; 
             color: white;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 4px;
         }
         .arrival-badge {
             background-color: #ec4899;
@@ -107,29 +111,29 @@
 <body class="vibe-gradient min-h-screen pb-20">
 
     <header class="pt-8 pb-4 text-center px-4">
-        <h1 class="text-3xl font-bold text-sky-800 tracking-tight">Busan Besties Trip</h1>
+        <h1 class="text-3xl font-bold text--900 tracking-tight">Busan Besties Trip</h1>
         <p class="text-gray-500 text-sm mt-1">2026 釜山櫻花閨蜜行 🌸</p>
     </header>
 
-    <nav class="sticky top-0 z-50 py-2 px-3 bg-white/40 backdrop-blur-md mb-6 border-b border-white/20">
+    <nav class="sticky top-0 z-50 py-2 px-3 bg-white/40 backdrop-blur-md mb-6 border-b border-indigo-100">
         <div class="flex flex-nowrap gap-1 w-full max-w-md mx-auto justify-center">
-            <button onclick="switchDay(1)" id="btn-1" class="day-btn flex-shrink-0 px-1 py-2 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
+            <button onclick="switchDay(1)" id="btn-1" class="day-btn flex-shrink-0 px-2 py-3 rounded-2x1 bg-white/80 text-indigo-400 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
                 <span class="font-bold text-sm leading-tight">4/9</span>
                 <span class="text-[10px] opacity-60 uppercase">Day 1</span>
             </button>
-            <button onclick="switchDay(2)" id="btn-2" class="day-btn flex-shrink-0 px-1 py-2 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
+            <button onclick="switchDay(2)" id="btn-2" class="day-btn flex-shrink-0 px-2 py-3 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
                 <span class="font-bold text-sm leading-tight">4/10</span>
                 <span class="text-[10px] opacity-60 uppercase">Day 2</span>
             </button>
-            <button onclick="switchDay(3)" id="btn-3" class="day-btn flex-shrink-0 px-1 py-2 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
+            <button onclick="switchDay(3)" id="btn-3" class="day-btn flex-shrink-0 px-2 py-3 rounded-2x1 bg-white/80 text-indigo-400 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
                 <span class="font-bold text-sm leading-tight">4/11</span>
                 <span class="text-[10px] opacity-60 uppercase">Day 3</span>
             </button>
-            <button onclick="switchDay(4)" id="btn-4" class="day-btn flex-shrink-0 px-1 py-2 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
+            <button onclick="switchDay(4)" id="btn-4" class="day-btn flex-shrink-0 px-2 py-3 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
                 <span class="font-bold text-sm leading-tight">4/12</span>
                 <span class="text-[10px] opacity-60 uppercase">Day 4</span>
             </button>
-            <button onclick="switchDay(5)" id="btn-5" class="day-btn flex-shrink-0 px-1 py-2 rounded-2x1 bg-white text-gray-500 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
+            <button onclick="switchDay(5)" id="btn-5" class="day-btn flex-shrink-0 px-2 py-3 rounded-2x1 bg-white/80 text-indigo-400 shadow-sm border border-sky-50 flex flex-col items-center justify-center">
                 <span class="font-bold text-sm leading-tight">4/13</span>
                 <span class="text-[10px] opacity-60 uppercase">Day 5</span>
             </button>
@@ -663,9 +667,9 @@
             }
         }
 
-        // 初始化顯示第一天，方便查看效果
+        // 初始化顯示第二天，方便查看效果
         window.onload = () => {
-            switchDay(1);
+            switchDay(2);
         };
     </script>
 </body>
