@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Busan - Besties Getaway 🌊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .vibe-gradient { 
+            background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%); 
+        }
+        .tab-active {
+            background-color: #0284c7 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+        .subtab-active {
+            background-color: #ec4899 !important;
+            color: white !important;
+            border-color: #ec4899 !important;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .group-content {
+            display: none;
+        }
+        .group-content.active {
+            display: block;
+        }
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.5); 
+        }
+        .day-btn {
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 65px;
+        }
+        .transit-badge {
+            background: rgba(2, 132, 199, 0.1);
+            color: #0369a1;
+        }
+        .time-stamp {
+            background-color: #0284c7;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .arrival-badge {
+            background-color: #ec4899;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .critical-alert {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            color: #b91c1c;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .birthday-card {
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+            border: 2px solid #d4af37;
+        }
+        /* 新增的地圖圖示樣式 */
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 6px;
+            vertical-align: middle;
+            transition: opacity 0.2s;
+        }
+        .map-link:active {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body class="vibe-gradient min-h-screen pb-20">
+
+    <header class="pt-8 pb-4 text-center px-4">
+        <h1 class="text-3xl font-bold text-sky-800 tracking-tight">Busan Besties Trip</h1>
+        <p class="text-gray-500 text-sm mt-1">2026 釜山櫻花閨蜜行 🌸</p>
+    </header>
+
+    <nav class="sticky top-0 z-50 py-4 px-2 bg-white/40 backdrop-blur-md mb-6 border-b border-white/20">
+        <div class="flex gap-2 overflow-x-auto hide-scrollbar max-w-md mx-auto justify-start px-2">
+            <button onclick="switchDay(1)" id="btn-1" class="day-btn flex-shrink-0 px-2 py-3 rounded-2xl bg-white text-gray-600 shadow-sm border border-sky-100 flex flex-col items-center">
+                <span class="font-bold text-lg leading-none">4/9</span>
+                <span class="text-[10px] opacity-60 mt-1 uppercase">Day 1</span>
+            </button>
+            <button onclick="switchDay(2)" id="btn-2" class="day-btn flex-shrink-0 px-2 py-3 rounded-2xl bg-white text-gray-600 shadow-sm border border-sky-100 flex flex-col items-center">
+                <span class="font-bold text-lg leading-none">4/10</span>
+                <span class="text-[10px] opacity-60 mt-1 uppercase">Day 2</span>
+            </button>
+            <button onclick="switchDay(3)" id="btn-3" class="day-btn flex-shrink-0 px-2 py-3 rounded-2xl bg-white text-gray-600 shadow-sm border border-sky-100 flex flex-col items-center">
+                <span class="font-bold text-lg leading-none">4/11</span>
+                <span class="text-[10px] opacity-60 mt-1 uppercase">Day 3</span>
+            </button>
+            <button onclick="switchDay(4)" id="btn-4" class="day-btn flex-shrink-0 px-2 py-3 rounded-2xl bg-white text-gray-600 shadow-sm border border-sky-100 flex flex-col items-center">
+                <span class="font-bold text-lg leading-none">4/12</span>
+                <span class="text-[10px] opacity-60 mt-1 uppercase">Day 4</span>
+            </button>
+            <button onclick="switchDay(5)" id="btn-5" class="day-btn tab-active flex-shrink-0 px-2 py-3 rounded-2xl bg-white text-gray-600 shadow-sm border border-sky-100 flex flex-col items-center">
+                <span class="font-bold text-lg leading-none">4/13</span>
+                <span class="text-[10px] opacity-60 mt-1 uppercase">Day 5</span>
+            </button>
+            <button onclick="switchDay('taxi')" id="btn-taxi" class="day-btn flex-shrink-0 px-2 py-3 rounded-2xl bg-white text-pink-600 shadow-sm border border-pink-100 flex flex-col items-center">
+                <span class="font-bold text-lg leading-none">🚕</span>
+                <span class="text-[10px] opacity-60 mt-1 uppercase">Taxi</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-md mx-auto px-4">
+        
+        <!-- DAY 01 -->
+        <section id="day-1" class="content-section animate__animated animate__fadeIn">
+            <div class="mb-4">
+                <span class="text-sky-600 font-bold text-sm uppercase tracking-widest">4/9 (Thu) ✈️ 飛去釜山囉</span>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-sky-400">
+                <span class="time-stamp">下午 13:35</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">金海國際機場 (PUS)</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Gimhae+International+Airport" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <div class="transit-badge p-3 rounded-xl flex items-center gap-3 mt-3">
+                    <span class="text-lg">🚕</span>
+                    <div class="text-xs">
+                        <p class="font-bold">機場 → UH Suite The Haeundae</p>
+                        <p>搭計程車大約 50-65 分鐘 | ₩45,000 ~ 55,000</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4">
+                <span class="time-stamp">下午 15:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">酒店 Check-in</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=UH+Suite+The+Haeundae" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">去 UH Suite 放低行李先，喺房入面望下個海雲台海景 Chill 下。</p>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg border-l-4 border-pink-400">
+                <span class="time-stamp">下午 17:00</span>
+                <h3 class="text-xl font-bold text-gray-800">出發去西面</h3>
+                <div class="transit-badge p-4 rounded-xl flex items-start gap-3 mt-3">
+                    <span class="text-xl">🚇</span>
+                    <div class="text-xs">
+                        <p class="font-bold text-sky-800">地鐵 2 號線 (綠線)</p>
+                        <p class="mt-1"><b>上車：</b>海雲台站 (Haeundae)</p>
+                        <p><b>下車：</b>西面站 (Seomyeon)</p>
+                        <p class="text-gray-500 mt-1">搭大約 35 分鐘 | 唔使轉車 | ₩1,450</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mt-4 border-l-4 border-pink-600">
+                <span class="time-stamp">夜晚 17:45</span>
+                <h3 class="text-xl font-bold text-gray-800">西面 Shopping 攻略</h3>
+                <div class="mt-3 space-y-4">
+                    <div class="flex items-start gap-3">
+                        <span class="text-pink-500 mt-1">🛍️</span>
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-bold">西面地下街</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Seomyeon+Underground+Shopping+Center" target="_blank" class="map-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500">西面站入面直接連住，平價衫天堂</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-pink-500 mt-1">🏢</span>
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-bold">樂天百貨 (總店)</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Lotte+Department+Store+Busan+Main" target="_blank" class="map-link">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500">西面站 7 號出口行 2 分鐘</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAY 02 -->
+        <section id="day-2" class="content-section animate__animated animate__fadeIn">
+            <div class="mb-4">
+                <span class="text-sky-600 font-bold text-sm uppercase tracking-widest">4/10 (Fri) 👯 閨蜜大集合</span>
+                <h2 class="text-2xl font-bold text-gray-800">南浦洞一日遊</h2>
+            </div>
+            <div class="flex p-1 bg-white/50 backdrop-blur rounded-2xl mb-6 shadow-inner border border-white/50">
+                <button onclick="switchGroup('tina-ivy')" id="subbtn-tina" class="group-btn subtab-active flex-1 py-3 text-xs font-bold rounded-xl transition-all duration-300">Tina & Ivy</button>
+                <button onclick="switchGroup('original')" id="subbtn-orig" class="group-btn flex-1 py-3 text-xs font-bold text-gray-500 rounded-xl transition-all duration-300">先行部隊</button>
+            </div>
+            <div id="group-tina-ivy" class="group-content active animate__animated animate__fadeIn">
+                <div class="glass-card rounded-3xl p-5 shadow-lg mb-6 border-l-4 border-pink-400">
+                    <span class="arrival-badge">Tina & Ivy 到咗喇</span>
+                    <div class="mt-3 space-y-3">
+                        <p class="text-sm font-bold text-gray-800"><span class="time-stamp">13:35</span> 降落金海機場</p>
+                        <div class="transit-badge p-3 rounded-xl flex items-center gap-3">
+                            <span class="text-lg">🚕</span>
+                            <p class="text-xs font-bold">14:30 | 機場 → UH Suite<br><span class="font-normal opacity-70">返酒店放行李休息下</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="group-original" class="group-content animate__animated animate__fadeIn">
+                <div class="glass-card rounded-3xl p-5 shadow-lg mb-6">
+                    <span class="time-stamp">上午 10:30 (二揀一)</span>
+                    <div class="mt-3 space-y-4">
+                        <div class="flex items-start gap-3 p-2 rounded-xl bg-sky-50 border border-sky-100">
+                            <span class="text-xl">🐠</span>
+                            <div>
+                                <div class="flex items-center">
+                                    <h4 class="font-bold text-gray-800 text-sm">釜山水族館 SEA LIFE</h4>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=SEA+LIFE+Busan+Aquarium" target="_blank" class="map-link">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    </a>
+                                </div>
+                                <p class="text-[11px] text-gray-500 mt-1">喺海雲台沙灘隔離！行過去就到，最啱悠閒上午。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-2 rounded-xl bg-pink-50 border border-pink-100">
+                            <span class="text-xl">🌸</span>
+                            <div>
+                                <div class="flex items-center">
+                                    <h4 class="font-bold text-gray-800 text-sm">大渚生態公園</h4>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=Daejeo+Ecological+Park" target="_blank" class="map-link">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                    </a>
+                                </div>
+                                <p class="text-[11px] text-gray-500 mt-1">睇金黃色油菜花田加櫻花隧道，影相一流。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-sky-600 text-white p-5 rounded-3xl mb-4 shadow-xl text-center">
+                <h3 class="text-lg font-bold">下午 16:30 | 海雲台市場集合</h3>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-orange-400">
+                <span class="time-stamp">下午 16:45</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">海雲台市場掃街</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Haeundae+Traditional+Market" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">必食：<b>名品糖餅 (Hotteok)</b>、魚糕、炸物。</p>
+                <div class="transit-badge p-4 rounded-xl flex items-start gap-3 mt-4">
+                    <span class="text-xl">🚕</span>
+                    <p class="text-xs"><b>搭車去南浦洞：</b>大約 30 分鐘，建議坐的士慳體力。</p>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg border-l-4 border-sky-500">
+                <span class="time-stamp">夜晚 20:00</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">Dinner：南浦洞醬油蟹</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Nampo-dong+Ganjang+Gejang" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2 font-bold text-sky-700">「白飯賊」醬油蟹大餐，今日 Perfect Ending！🦀</p>
+            </div>
+        </section>
+
+        <!-- DAY 03 -->
+        <section id="day-3" class="content-section animate__animated animate__fadeIn">
+            <div class="mb-4">
+                <span class="text-sky-600 font-bold text-sm uppercase tracking-widest">4/11 (Sat) 🦀 吃大蟹睇大橋</span>
+                <h2 class="text-2xl font-bold text-gray-800">青沙浦 + 廣安里</h2>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-sky-400">
+                <span class="time-stamp">上午 09:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">海雲台天空艙小火車</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Blueline+Park+Mipo+Station" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2"><b>路線：</b>尾浦 (Mipo) → 青沙浦 (Cheongsapo)</p>
+                <p class="text-xs text-blue-500 mt-1">※ 喺彩色膠囊火車入面睇住海景打卡。</p>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xl">📸</span>
+                    <h3 class="text-lg font-bold text-gray-800">青沙浦景點周圍行下</h3>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-white/50 p-2 rounded-xl border border-sky-100 flex justify-between items-start">
+                        <div>
+                            <p class="text-[11px] font-bold">雙子紅白燈塔</p>
+                            <p class="text-[10px] text-gray-500">超得意必影位</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Cheongsapo+Lighthouse" target="_blank" class="opacity-60">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </a>
+                    </div>
+                    <div class="bg-white/50 p-2 rounded-xl border border-sky-100 flex justify-between items-start">
+                        <div>
+                            <p class="text-[11px] font-bold">天空步道</p>
+                            <p class="text-[10px] text-gray-500">玻璃地底睇浪花</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Cheongsapo+Daritdol+Observatory" target="_blank" class="opacity-60">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-orange-400">
+                <span class="time-stamp">下午 12:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">Lunch：機張站吃帝王蟹</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Gijang+Market+Crab" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <div class="transit-badge p-3 rounded-xl flex items-center gap-3 mt-3">
+                    <span class="text-lg">🚋</span>
+                    <div class="text-xs">
+                        <p class="font-bold">搭 東海線 (Donghae Line)</p>
+                        <p>松亭站 → 機張站 (大概 15 分鐘)</p>
+                        <p class="text-orange-600 font-bold mt-1">必食：鮮甜長腳蟹/帝王蟹大餐 🦀</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-pink-400">
+                <span class="time-stamp">下午 15:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">廣安里海邊散步</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Gwangalli+Beach" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <div class="transit-badge p-3 rounded-xl flex items-center gap-3 mt-3">
+                    <span class="text-lg">🚇</span>
+                    <p class="text-xs font-bold">搭地鐵去 廣安站 (Gwangan) 大概 30 分鐘</p>
+                </div>
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg">🏖️</span>
+                        <p class="text-xs text-gray-500"><b>廣安里海水浴場：</b>睇超壯觀廣安大橋。</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg">🌸</span>
+                        <div class="flex items-center">
+                            <p class="text-xs text-gray-500"><b>南川洞櫻花路：</b>影櫻花隧道影到手軟。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Namcheon-dong+Cherry+Blossom+Road" target="_blank" class="ml-2">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-5 shadow-lg border-l-4 border-red-500">
+                <span class="time-stamp">晚上 19:30</span>
+                <h3 class="text-xl font-bold text-gray-800">Dinner：韓式正宗燒肉</h3>
+                <p class="text-sm text-gray-600 mt-2">喺廣安里搵間燒肉，睇住海景食五花肉！🔥🥓</p>
+            </div>
+        </section>
+
+        <!-- DAY 04 -->
+        <section id="day-4" class="content-section animate__animated animate__fadeIn">
+            <div class="mb-4">
+                <span class="text-sky-600 font-bold text-sm uppercase tracking-widest">4/12 (Sun) 🎨 文藝色彩行程</span>
+                <h2 class="text-2xl font-bold text-gray-800">甘川洞、影島與松島</h2>
+            </div>
+            
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-sky-400">
+                <span class="time-stamp">上午 10:00</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">甘川洞文化村 🏮</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Gamcheon+Culture+Village" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2"><b>必做：</b>換韓服行彩色屋、整手作翻頁書 (Flipbook)。</p>
+                <p class="text-xs text-blue-500 mt-1">※ 喺釜山嘅「聖托里尼」影小王子同埋色彩繽紛嘅屋仔。</p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-orange-400">
+                <span class="time-stamp">中午 13:00</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">Lunch：影島海女文化展示館</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Yeongdo+Haenyeo+Cultural+Exhibit+Hall" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2"><b>美食：</b>喺海邊坐住小矮凳，食新鮮現切嘅海螺、鮑魚同埋海女拉麵！🦑🐚</p>
+                <div class="transit-badge p-3 rounded-xl flex items-center gap-3 mt-3">
+                    <span class="text-lg">🚕</span>
+                    <p class="text-xs font-bold">Lunch 後搭的士去松島 (大概 15 分鐘)</p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-blue-500">
+                <span class="time-stamp">下午 14:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">松島海上纜車</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Songdo+Marine+Cable+Car" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">搭水晶纜車橫跨大海，再去龍宮吊橋體驗腳底懸空嘅刺激感。</p>
+                <div class="transit-badge p-3 rounded-xl flex items-center gap-3 mt-3">
+                    <span class="text-lg">🚕</span>
+                    <p class="text-xs font-bold">搭的士去白淺灘文化村</p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-pink-400">
+                <span class="time-stamp">下午 16:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-xl font-bold text-gray-800">白淺灘文化村 ☕</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Huinnyeoul+Culture+Village" target="_blank" class="map-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-600 mt-2"><b>Tea Time：</b>搵間海景 Café 飲下午茶，影黃昏日落相。</p>
+                <p class="text-xs text-gray-500 mt-1">呢度被譽為釜山最文青嘅海邊小徑，非常啱打卡。</p>
+            </div>
+
+            <div class="birthday-card rounded-3xl p-6 shadow-2xl border-l-4 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-6xl opacity-10 rotate-12">🎂</div>
+                <span class="time-stamp bg-amber-600">晚上 19:30</span>
+                <div class="flex items-center">
+                    <h3 class="text-2xl font-bold text-gray-800">慶祝生日：Club D Oasis ♨️</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Club+D+Oasis" target="_blank" class="map-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                </div>
+                <p class="text-sm text-gray-700 mt-2 font-bold italic">釜山最強海景汗蒸幕 & 水療中心！</p>
+                <ul class="text-xs text-gray-600 mt-3 space-y-2">
+                    <li>✨ 喺露天足浴池睇住海雲台夜景</li>
+                    <li>🔥 多種特色桑拿房，徹底放鬆體力</li>
+                    <li>🍗 必食：汗蒸幕必食燻製蛋 + 甜米釀 (Sikhye)</li>
+                </ul>
+                <div class="mt-4 text-center">
+                    <p class="text-pink-600 font-bold">Happy Birthday My Bestie! 🥂✨</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAY 05 -->
+        <section id="day-5" class="content-section active animate__animated animate__fadeIn">
+            <div class="mb-4">
+                <span class="text-sky-600 font-bold text-sm uppercase tracking-widest">4/13 (Mon) 🛍️ 自由時間與回程</span>
+                <h2 class="text-2xl font-bold text-gray-800">最後衝刺︰海雲台自由行</h2>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-pink-300">
+                <span class="time-stamp">上午 08:30 - 11:30</span>
+                <h3 class="text-xl font-bold text-gray-800">自由時間 (Free Time) ☕</h3>
+                <div class="mt-3 space-y-3">
+                    <div class="flex items-start gap-3">
+                        <span class="text-lg">🌸</span>
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-bold">迎月嶺櫻花路 (Moontan Road)</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Moontan+Road+Haeundae" target="_blank" class="ml-2 opacity-60">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500">最後捕捉櫻花飄落嘅瞬間，浪漫散步。</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 border-t border-gray-100 pt-2">
+                        <span class="text-lg">🏖️</span>
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-bold">海雲台海灘 (Haeundae Beach)</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Haeundae+Beach" target="_blank" class="ml-2 opacity-60">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                </a>
+                            </div>
+                            <p class="text-xs text-gray-500">喺沙灘聽下浪聲，或者去附近 Cafe 坐下。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-4 border-l-4 border-red-500">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xl">🛎️</span>
+                    <h3 class="font-bold text-gray-800 text-lg">Check-out 退房</h3>
+                </div>
+                <p class="text-sm text-red-600 font-bold mb-3 italic">請確保於 11:00 AM 前完成退房手續。</p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-5 shadow-lg mb-6 border-l-4 border-sky-600">
+                <span class="time-stamp">交通資訊 🚌</span>
+                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">前往金海機場 (PUS)</h3>
+                
+                <div class="space-y-4">
+                    <div class="p-3 bg-sky-50 rounded-2xl border border-sky-100">
+                        <div class="flex justify-between items-center mb-1">
+                            <p class="text-sm font-bold text-sky-800">選項一：計程車 (Taxi)</p>
+                            <span class="text-xs font-bold text-sky-600">最推薦 ⭐</span>
+                        </div>
+                        <p class="text-xs text-gray-600">時間：約 50-60 分鐘 (視乎交通)</p>
+                        <p class="text-xs text-gray-600">車費：約 ₩35,000 - 45,000 (分擔後好平)</p>
+                        <p class="text-[10px] text-gray-400 mt-1">※ 建議 11:15 AM 前上車以防塞車。</p>
+                    </div>
+
+                    <div class="p-3 bg-white rounded-2xl border border-gray-200">
+                        <p class="text-sm font-bold text-gray-800">選項二：機場巴士 (Limousine)</p>
+                        <p class="text-xs text-gray-600">上車點：UH Suite 附近 (海雲台海邊站)</p>
+                        <p class="text-xs text-gray-600">車費：約 ₩10,000/人 | 約 70 分鐘</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4 rounded-2xl critical-alert">
+                    <p class="text-xl font-bold text-center animate__animated animate__pulse animate__infinite">
+                        12:20 PM 抵達機場！
+                    </p>
+                    <p class="text-[10px] text-center mt-1 opacity-75">UO675 預計 14:20 起飛 (需提前 2 小時 Check-in)</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 text-white p-6 rounded-3xl text-center shadow-xl">
+                <p class="text-lg font-bold mb-1">Safe Flight! ✈️</p>
+                <p class="text-xs text-gray-400">期待下次再一齊玩！👋💖</p>
+            </div>
+        </section>
+
+        <!-- TAXI PAGE -->
+        <section id="day-taxi" class="content-section animate__animated animate__fadeIn">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl font-bold text-gray-800">🚕 的士助手</h2>
+                <p class="text-pink-600 text-sm font-bold italic">如有需要，請直接給司機查看本頁或點擊播放語音</p>
+            </div>
+			
+			<!-- 往酒店 -->
+            <div class="glass-card rounded-3xl p-6 shadow-xl border-2 border-sky-200">
+			    <div class="flex items-center justify-between mb-4">
+                    <span class="bg-sky-100 text-sky-700 text-[10px] px-2 py-1 rounded-md font-bold uppercase">To Hotel / 往酒店</span>
+                    <span class="text-2xl">🏨</span>
+                </div>
+                <div class="mb-6">
+                    <div class="flex items-center">
+                        <h2 class="text-3xl font-bold text-gray-800">UH Suite Haeundae</h2>
+                        <a href="https://www.google.com/maps/search/?api=1&query=%EB%B6%80%EC%82%B0%EA%B2%BD%EA%B8%B0%EB%8F%84+%ED%95%B4%EC%9A%B4%EB%8C%80%EB%B3%80%EB%A1%9C+271" target="_blank" class="ml-3">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </a>
+                    </div>
+                    <h3 class="text-2xl font-bold text-sky-700 tracking-tight">유에이치 스위트 해운대</h3>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">Address / 地址</p>
+                    <p class="text-lg text-gray-800 font-bold">부산광역시 해운대구 해운代해변로 271</p>
+                </div>
+                <button onclick="speakKorean()" class="mt-8 w-full bg-sky-600 text-white py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                    🔊 播放韓文語音
+                </button>
+                <p class="text-center text-[10px] text-gray-400 mt-4">"해운대 유에이치 스위트로 가주세요."<br>(請載我到海雲台 UH Suite)</p>
+            </div>
+			
+            <!-- 往機場 -->
+            <div class="glass-card rounded-3xl p-6 shadow-xl border-2 border-orange-200 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-orange-100 text-orange-700 text-[10px] px-2 py-1 rounded-md font-bold uppercase">To Airport / 往機場</span>
+                    <span class="text-2xl">✈️</span>
+                </div>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Gimhae Airport (International)</h2>
+                    <h3 class="text-xl font-bold text-orange-700 tracking-tight mt-1">김해국제공항 (국제선)</h3>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Destination / 目的地</p>
+                    <p class="text-lg text-gray-800 font-bold leading-tight">김해공항 국제선 터미널로 가주세요</p>
+                    <p class="text-xs text-gray-500">(請去金海機場國際線航廈)</p>
+                </div>
+                <button onclick="speakKorean('airport')" class="mt-8 w-full bg-orange-500 text-white py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                    🔊 播放目的地語音
+                </button>
+            </div>
+
+            <div class="p-4 bg-white/50 rounded-2xl border border-dashed border-gray-300">
+                <p class="text-[10px] text-gray-500 text-center italic">Tips: 釜山司機通常能聽懂簡單英語，但出示韓文地址最為準確。</p>
+            </div>			
+        </section>
+
+    </main>
+
+    <script>
+        function switchDay(day) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => { section.classList.remove('active'); });
+            const buttons = document.querySelectorAll('.day-btn');
+            buttons.forEach(btn => { btn.classList.remove('tab-active'); });
+            
+            const targetId = 'day-' + day;
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) targetSection.classList.add('active');
+            
+            const targetBtnId = (day === 'taxi') ? 'btn-taxi' : 'btn-' + day;
+            document.getElementById(targetBtnId).classList.add('tab-active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchGroup(group) {
+            document.querySelectorAll('.group-content').forEach(content => { content.classList.remove('active'); });
+            document.querySelectorAll('.group-btn').forEach(btn => {
+                btn.classList.remove('subtab-active');
+                btn.classList.add('text-gray-500');
+            });
+
+            if (group === 'tina-ivy') {
+                document.getElementById('group-tina-ivy').classList.add('active');
+                document.getElementById('subbtn-tina').classList.add('subtab-active');
+                document.getElementById('subbtn-tina').classList.remove('text-gray-500');
+            } else {
+                document.getElementById('group-original').classList.add('active');
+                document.getElementById('subbtn-orig').classList.add('subtab-active');
+                document.getElementById('subbtn-orig').classList.remove('text-gray-500');
+            }
+        }
+
+        function speakKorean() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance("해운대 유에이치 스위트로 가주세요.");
+                utterance.lang = 'ko-KR'; 
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.log("Speech synthesis not supported");
+            }
+        }
+
+        // 初始化顯示第一天，方便查看效果
+        window.onload = () => {
+            switchDay(1);
+        };
+    </script>
+</body>
+</html>
