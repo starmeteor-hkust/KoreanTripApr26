@@ -590,7 +590,7 @@
                     <p class="text-lg text-gray-800 font-bold">부산광역시 해운대구 해운代해변로 271</p>
 					<p class="text-lg text-gray-800">釜山廣域市 海雲臺區 海雲臺海邊路 271</p>
                 </div>
-                <button onclick="speakKorean()" class="mt-8 w-full bg-sky-600 text-white py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                <button onclick="speakKorean('UHSuite')" class="mt-8 w-full bg-sky-600 text-white py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
                     🔊 播放韓文語音
                 </button>
                 <p class="text-center text-[10px] text-gray-400 mt-4">"해운대 유에이치 스위트로 가주세요."<br>(請載我到海雲台 UH Suite)</p>
@@ -657,16 +657,28 @@
             }
         }
 
-        function speakKorean() {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance("해운대 유에이치 스위트로 가주세요.");
-                utterance.lang = 'ko-KR'; 
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
-            } else {
-                console.log("Speech synthesis not supported");
-            }
-        }
+		function speakKorean(type) {
+		    if (!('speechSynthesis' in window)) return;
+		
+		    // 定義語句庫
+		    const phrases = {
+		        'UHSuite': "해운대 UH 스위트까지 데려다주세요.", //請載我到海雲台 UH Suite
+		        'receipt': "영수증 주세요.", // 請給我收據
+		        'stop': "여기서 세워주세요.", // 請在這邊停車
+				'airport': "김해국제공항까지 데려다주세요." //請帶我去金海國際機場
+		    };
+		
+		    // 如果找不到對應的 key，就直接讀取傳入的內容，或給予預設值
+		    const text = phrases[type] || type || "잠시만요"; 
+		
+		    const utterance = new SpeechSynthesisUtterance(text);
+		    utterance.lang = 'ko-KR';
+		    utterance.rate = 0.9;
+		    window.speechSynthesis.speak(utterance);
+		}
+
+// 呼叫範例：
+// speakKorean('receipt');
 
         // 初始化顯示第二天，方便查看效果
         window.onload = () => {
